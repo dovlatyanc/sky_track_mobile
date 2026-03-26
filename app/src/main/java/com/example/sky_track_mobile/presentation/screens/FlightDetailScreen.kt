@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -25,7 +27,9 @@ import com.example.sky_track_mobile.presentation.theme.Sky_track_mobileTheme
 fun FlightDetailScreen(
     flight: Flight,
     onBack: () -> Unit,
-    onMarkAsViewed: (Flight) -> Unit
+    onMarkAsViewed: (Flight) -> Unit,
+    isFavorite: Boolean = false,
+    onToggleFavorite: (Flight) -> Unit = {}
 ) {
     val context = LocalContext.current
 
@@ -46,6 +50,13 @@ fun FlightDetailScreen(
                     }
                 },
                 actions = {
+                    IconButton(onClick = { onToggleFavorite(flight) }) {
+                        Icon(
+                            if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            contentDescription = if (isFavorite) "Remove from favorites" else "Add to favorites",
+                            tint = if (isFavorite) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
                     IconButton(onClick = {
                         shareFlight(context, flight)
                     }) {
@@ -314,7 +325,9 @@ private fun FlightDetailScreenPreview() {
         FlightDetailScreen(
             flight = mockFlight,
             onBack = {},
-            onMarkAsViewed = {}
+            onMarkAsViewed = {},
+            isFavorite = false,
+            onToggleFavorite = {}
         )
     }
 }

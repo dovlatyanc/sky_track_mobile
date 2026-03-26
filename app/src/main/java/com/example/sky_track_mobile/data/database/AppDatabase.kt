@@ -6,12 +6,13 @@ import androidx.room.RoomDatabase
 import android.content.Context
 
 @Database(
-    entities = [ViewedFlightEntity::class],
-    version = 1,
+    entities = [ViewedFlightEntity::class, FavoriteFlightEntity::class],
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun viewedFlightDao(): ViewedFlightDao
+    abstract fun favoriteFlightDao(): FavoriteFlightDao
 
     companion object {
         @Volatile
@@ -23,7 +24,8 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "sky_track_database"
-                ).build()
+                ).fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 instance
             }

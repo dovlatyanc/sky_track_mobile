@@ -35,13 +35,33 @@ fun FlightsScreen(
     var selectedFlight by remember { mutableStateOf<Flight?>(null) }
     val scope = rememberCoroutineScope()
 
+
     val viewedFlights by repository.getViewedFlightsFlow().collectAsState(initial = emptyList())
 
-    // ✅ Выносим строки из ресурсов в переменные
+    val favoriteFlights by repository.getFavoritesFlow().collectAsState(initial = emptyList())
+
     val errorUnknown = stringResource(R.string.error_unknown)
     val shareVia = stringResource(R.string.share_via)
 
-    fun sortFlightsByViewed(flights: List<Flight>): List<Flight> {
+
+    suspend fun markAsViewed(flight: Flight) {
+        repository.addToViewed(flight)
+    }
+
+    // просмотрен ли рейс
+    fun isViewed(flight: Flight): Boolean {
+        val key = "${flight.flight?.iata}_${flight.flightDate}"
+        return viewedFlights.any { it.flightKey == key }
+    }
+
+    //  в избранном ли рейс
+    fun isFavorite(flight: Flight): Boolean {
+        val key = "${flight.flight?.iata}_${flight.flightDate}"
+        return favoriteFlights.any { it.flightKey == key }
+    }
+
+    //  просмотренные вверху
+    fun sortFlightsWithViewedFirst(flights: List<Flight>): List<Flight> {
         val viewedKeys = viewedFlights.map { it.flightKey }.toSet()
         return flights.sortedByDescending { flight ->
             val key = "${flight.flight?.iata}_${flight.flightDate}"
@@ -67,10 +87,22 @@ fun FlightsScreen(
         context.startActivity(Intent.createChooser(shareIntent, shareVia))
     }
 
+    suspend fun toggleFavorite(flight: Flight) {
+        if (isFavorite(flight)) {
+            repository.removeFromFavorites(flight)
+        } else {
+            repository.addToFavorites(flight)
+        }
+    }
+
+
     LaunchedEffect(Unit) {
         isLoading = true
         loadFlights(repository) { result ->
-            result.onSuccess { allFlights = it }
+            result.onSuccess {
+                allFlights = it
+
+            }
                 .onFailure { error = it.localizedMessage ?: errorUnknown }
             isLoading = false
         }
@@ -82,7 +114,13 @@ fun FlightsScreen(
             onBack = { selectedFlight = null },
             onMarkAsViewed = { flight ->
                 scope.launch {
-                    repository.addToViewed(flight)
+                    markAsViewed(flight)
+                }
+            },
+            isFavorite = isFavorite(selectedFlight!!),
+            onToggleFavorite = { flight ->
+                scope.launch {
+                    toggleFavorite(flight)
                 }
             }
         )
@@ -125,7 +163,7 @@ fun FlightsScreen(
                     }
                     else -> {
                         val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = isLoading)
-                        val sortedFlights = sortFlightsByViewed(allFlights)
+                        val sortedFlights = sortFlightsWithViewedFirst(allFlights)
 
                         SwipeRefresh(
                             state = swipeRefreshState,
@@ -133,7 +171,10 @@ fun FlightsScreen(
                                 isLoading = true
                                 scope.launch {
                                     loadFlights(repository) { result ->
-                                        result.onSuccess { allFlights = it }
+                                        result.onSuccess {
+                                            allFlights = it
+                                            // ✅ Просмотренные остаются в базе
+                                        }
                                             .onFailure { error = it.localizedMessage ?: errorUnknown }
                                         isLoading = false
                                     }
@@ -152,12 +193,13 @@ fun FlightsScreen(
                                         items = sortedFlights,
                                         key = { "${it.flight?.iata}_${it.flightDate}" }
                                     ) { flight ->
-                                        val flightKey = "${flight.flight?.iata}_${flight.flightDate}"
-                                        val isViewed = viewedFlights.any { it.flightKey == flightKey }
+                                        val isViewedFlag = isViewed(flight)
+                                        val isFav = isFavorite(flight)
 
                                         FlightCard(
                                             flight = flight,
-                                            isViewed = isViewed,
+                                            isViewed = isViewedFlag,
+                                            isFavorite = isFav,
                                             onClick = { selectedFlight = it },
                                             onShare = { shareFlight(it) }
                                         )

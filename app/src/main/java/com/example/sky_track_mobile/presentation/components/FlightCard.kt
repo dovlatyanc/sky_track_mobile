@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AirplanemodeActive
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -29,19 +31,27 @@ fun FlightCard(
     flight: Flight,
     modifier: Modifier = Modifier,
     isViewed: Boolean = false,
+    isFavorite: Boolean = false,
     onClick: ((Flight) -> Unit)? = null,
     onShare: ((Flight) -> Unit)? = null
 ) {
-    val cardColor = if (!isViewed) {
-        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
-    } else {
+
+    val cardColor = if (isViewed) {
         MaterialTheme.colorScheme.surfaceVariant
+    } else {
+        MaterialTheme.colorScheme.primaryContainer
     }
 
-    val iconColor = if (!isViewed) {
-        MaterialTheme.colorScheme.primary
-    } else {
+    val iconColor = if (isViewed) {
         MaterialTheme.colorScheme.onSurfaceVariant
+    } else {
+        MaterialTheme.colorScheme.primary
+    }
+
+    val textColor = if (isViewed) {
+        MaterialTheme.colorScheme.onSurfaceVariant
+    } else {
+        MaterialTheme.colorScheme.onSurface
     }
 
     val elevation = if (!isViewed) 4.dp else 2.dp
@@ -58,6 +68,7 @@ fun FlightCard(
         )
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
+            // Header: Airline + Favorite + Share + Status
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -67,8 +78,19 @@ fun FlightCard(
                     text = flight.airline?.name ?: stringResource(R.string.unknown_airline),
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    color = textColor
                 )
+
+                // Иконка избранного
+                Icon(
+                    imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                    contentDescription = if (isFavorite) "Favorite" else "Not favorite",
+                    tint = if (isFavorite) MaterialTheme.colorScheme.error else iconColor,
+                    modifier = Modifier.size(20.dp)
+                )
+
+                Spacer(modifier = Modifier.width(8.dp))
 
                 if (onShare != null) {
                     IconButton(
@@ -98,7 +120,8 @@ fun FlightCard(
                     code = flight.departure?.iata ?: stringResource(R.string.na),
                     time = parseTime(flight.departure?.scheduled),
                     name = flight.departure?.airport ?: stringResource(R.string.unknown),
-                    isViewed = isViewed
+                    isViewed = isViewed,
+                    textColor = textColor
                 )
 
                 Column(
@@ -117,7 +140,8 @@ fun FlightCard(
                         text = flight.flight?.iata ?: stringResource(R.string.na),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Medium,
-                        modifier = Modifier.padding(top = 4.dp)
+                        modifier = Modifier.padding(top = 4.dp),
+                        color = textColor
                     )
                 }
 
@@ -125,7 +149,8 @@ fun FlightCard(
                     code = flight.arrival?.iata ?: stringResource(R.string.na),
                     time = parseTime(flight.arrival?.scheduled),
                     name = flight.arrival?.airport ?: stringResource(R.string.unknown),
-                    isViewed = isViewed
+                    isViewed = isViewed,
+                    textColor = textColor
                 )
             }
 
@@ -137,7 +162,7 @@ fun FlightCard(
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(8.dp)),
                         color = if (!isViewed) {
-                            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+                            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f)
                         } else {
                             MaterialTheme.colorScheme.surfaceVariant
                         }
@@ -151,19 +176,22 @@ fun FlightCard(
                         ) {
                             Text(
                                 text = stringResource(R.string.emoji_location),
-                                fontSize = 12.sp
+                                fontSize = 12.sp,
+                                color = textColor
                             )
                             Text(
                                 text = "${stringResource(R.string.lat)}: ${"%.2f".format(live.latitude)}, " +
                                         "${stringResource(R.string.lon)}: ${"%.2f".format(live.longitude)}",
                                 fontSize = 12.sp,
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier.weight(1f),
+                                color = textColor
                             )
                             live.speed_horizontal?.let { speed ->
                                 Text(
                                     text = "${speed.toInt()} ${stringResource(R.string.km_h)}",
                                     fontSize = 12.sp,
-                                    fontWeight = FontWeight.Medium
+                                    fontWeight = FontWeight.Medium,
+                                    color = textColor
                                 )
                             }
                         }
@@ -179,7 +207,8 @@ private fun AirportColumn(
     code: String,
     time: String,
     name: String,
-    isViewed: Boolean = false
+    isViewed: Boolean = false,
+    textColor: androidx.compose.ui.graphics.Color
 ) {
     Column(
         modifier = Modifier.width(100.dp),
@@ -195,7 +224,7 @@ private fun AirportColumn(
             text = time,
             fontSize = 14.sp,
             modifier = Modifier.padding(top = 4.dp),
-            color = if (!isViewed) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant
+            color = textColor
         )
         Text(
             text = name,
@@ -203,7 +232,7 @@ private fun AirportColumn(
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(top = 2.dp),
-            color = if (!isViewed) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant
+            color = textColor
         )
     }
 }
@@ -290,6 +319,7 @@ private fun FlightCardUnviewedPreview() {
         FlightCard(
             flight = mockFlight,
             isViewed = false,
+            isFavorite = false,
             onClick = {},
             onShare = {}
         )
@@ -341,6 +371,7 @@ private fun FlightCardViewedPreview() {
         FlightCard(
             flight = mockFlight,
             isViewed = true,
+            isFavorite = true,
             onClick = {},
             onShare = {}
         )

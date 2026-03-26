@@ -14,7 +14,7 @@
     <string name="error_retry">Retry</string>
     <string name="empty_flights">No flights found</string>
     <string name="empty_flights_hint">Pull to refresh or check your connection</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading</string>
 
     <!-- Flight Card -->
     <string name="unknown_airline">Unknown Airline</string>
@@ -71,8 +71,8 @@
     <!-- Favorites Screen -->
     <string name="favorites_title">Favorites</string>
     <string name="favorites_empty">No favorites yet</string>
-    <string name="favorites_hint">Add flights to favorites to see them here</string>
-    <string name="coming_soon">Coming soon...</string>
+
+    <string name="coming_soon">Coming soon</string>
 
     <!-- Profile Screen -->
     <string name="profile_title">Profile</string>
@@ -112,4 +112,9 @@
     <string name="mock_flight_date">2024-03-27</string>
     <string name="mock_flight_time_departure">10:00</string>
     <string name="mock_flight_time_arrival">11:30</string>
+
+    <string name="no_favorites">No favorites yet</string>
+    <string name="favorites_hint">Tap the heart icon on any flight to add it to favorites</string>
+    <string name="remove_from_favorites">Remove from favorites</string>
+    <string name="add_to_favorites">Add to favorites</string>
 </resources>
