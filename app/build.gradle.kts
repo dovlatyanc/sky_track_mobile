@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.devtoolsKsp)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.android)
 
 }
 
@@ -13,12 +14,12 @@ android {
     }
 
     namespace = "com.example.sky_track_mobile"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.sky_track_mobile"
         minSdk = 29
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -37,25 +38,40 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
+    kotlinOptions {
+        jvmTarget = "21"
+    }
+
+
+    kotlin {
+        jvmToolchain(21)
+    }
+
 }
 
 dependencies {
+    implementation(libs.core.ktx)
+    implementation(libs.material3)
+    implementation(libs.androidx.ui.graphics)
     val composeBom = platform("androidx.compose:compose-bom:2024.02.00")
     implementation(composeBom)
     androidTestImplementation(composeBom)
-
-
+    implementation(libs.androidx.material.icons.extended)
+    implementation(libs.accompanist.swiperefresh)
+    implementation(libs.androidx.material3.v140)
     implementation(libs.androidx.ui)
-    implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation("androidx.compose.foundation:foundation:1.10.5")
 
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
+
+    implementation(libs.androidx.navigation.compose)
 
 
     implementation(libs.retrofit)

@@ -1,3 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">sky_track_mobile</string>
+    <string name="app_name">Sky Track</string>
+
+    <!-- Navigation -->
+    <string name="nav_flights">Flights</string>
+    <string name="nav_favorites">Favorites</string>
+    <string name="nav_profile">Profile</string>
+    <string name="back">Back</string>
+
+    <!-- Flight Screen -->
+    <string name="title_flights">✈️ Sky Track</string>
+    <string name="error_unknown">Unknown error</string>
+    <string name="error_retry">Retry</string>
+    <string name="empty_flights">No flights found</string>
+    <string name="empty_flights_hint">Pull to refresh or check your connection</string>
+    <string name="loading">Loading</string>
+
+    <!-- Flight Card -->
+    <string name="unknown_airline">Unknown Airline</string>
+    <string name="flight_direction">Flight direction</string>
+    <string name="share_flight">Share flight</string>
+    <string name="na">N/A</string>
+    <string name="unknown">Unknown</string>
+    <string name="lat">Lat</string>
+    <string name="lon">Lon</string>
+    <string name="km_h">km/h</string>
+    <string name="location_marker">📍</string>
+
+    <!-- Flight Detail Screen -->
+    <string name="flight_info">Flight Info</string>
+    <string name="flight_details">Flight Details</string>
+    <string name="route">Route</string>
+    <string name="departure">Departure</string>
+    <string name="arrival">Arrival</string>
+    <string name="flight_number">Flight Number</string>
+    <string name="flight_date">Flight Date</string>
+    <string name="airport">Airport</string>
+    <string name="airport_code">IATA Code</string>
+    <string name="time">Time</string>
+    <string name="live_tracking">Live Tracking</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="speed">Speed</string>
+    <string name="altitude">Altitude</string>
+    <string name="meters">m</string>
+
+    <!-- Statuses -->
+    <string name="status_active">Active</string>
+    <string name="status_landed">Landed</string>
+    <string name="status_cancelled">Cancelled</string>
+    <string name="status_scheduled">Scheduled</string>
+    <string name="status_delayed">Delayed</string>
+
+    <!-- Share -->
+    <string name="share_via">Share flight</string>
+    <string name="shared_via">Shared via Sky Track ✈️</string>
+    <string name="share_flight_template" formatted="false">✈️ Flight: %s\n🏢 Airline: %s\n🛫 From: %s (%s)\n🛬 To: %s (%s)\n📅 Date: %s\n📊 Status: %s\n\n%s</string>
+    <string name="share_flight_prefix">✈️ Flight: </string>
+    <string name="share_airline_prefix">🏢 Airline: </string>
+    <string name="share_from_prefix">🛫 From: </string>
+    <string name="share_to_prefix">🛬 To: </string>
+    <string name="share_date_prefix">📅 Date: </string>
+    <string name="share_status_prefix">📊 Status: </string>
+
+    <!-- Error Messages -->
+    <string name="error_network">Network error. Please check your connection</string>
+    <string name="error_server">Server error. Please try again later</string>
+    <string name="error_timeout">Connection timeout. Please try again</string>
+
+    <!-- Favorites Screen -->
+    <string name="favorites_title">Favorites</string>
+    <string name="favorites_empty">No favorites yet</string>
+
+    <string name="coming_soon">Coming soon</string>
+
+    <!-- Profile Screen -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_name">Name</string>
+    <string name="profile_email">Email</string>
+    <string name="profile_settings">Settings</string>
+    <string name="profile_about">About</string>
+    <string name="profile_version">Version</string>
+
+    <!-- Icons -->
+    <string name="icon_flight">Flight</string>
+    <string name="icon_favorite">Favorite</string>
+    <string name="icon_person">Person</string>
+    <string name="icon_share">Share</string>
+    <string name="icon_back">Back</string>
+    <string name="icon_check">Check</string>
+    <string name="icon_error">Error</string>
+    <string name="icon_warning">Warning</string>
+    <string name="icon_info">Info</string>
+
+    <!-- Emojis -->
+    <string name="emoji_airplane">🛫</string>
+    <string name="emoji_warning">⚠️</string>
+    <string name="emoji_star">⭐</string>
+    <string name="emoji_person">👤</string>
+    <string name="emoji_location">📍</string>
+
+    <!-- Time formatting -->
+    <string name="time_placeholder">--:--</string>
+
+
+    <!-- Mock data for preview -->
+    <string name="mock_airline_aeroflot">Aeroflot</string>
+    <string name="mock_airport_svo">Moscow Sheremetyevo</string>
+    <string name="mock_airport_led">St Petersburg Pulkovo</string>
+    <string name="mock_flight_iata">SU1234</string>
+    <string name="mock_flight_date">2024-03-27</string>
+    <string name="mock_flight_time_departure">10:00</string>
+    <string name="mock_flight_time_arrival">11:30</string>
+
+    <string name="no_favorites">No favorites yet</string>
+    <string name="favorites_hint">Tap the heart icon on any flight to add it to favorites</string>
+    <string name="remove_from_favorites">Remove from favorites</string>
+    <string name="add_to_favorites">Add to favorites</string>
 </resources>

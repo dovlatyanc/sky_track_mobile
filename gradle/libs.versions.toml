@@ -1,13 +1,18 @@
 [versions]
-agp = "8.7.2"
+accompanistSwiperefresh = "0.36.0"
+agp = "8.9.1"
 kotlin = "2.0.21"
+kotlinxCoroutinesAndroid = "1.10.2"
 ksp = "2.0.21-1.0.27"
 composeBom = "2024.02.00"
 
 
-coreKtx = "1.12.0"
+coreKtx = "1.18.0"
 lifecycle = "2.7.0"
 activity = "1.8.2"
+material3Version = "1.4.0"
+materialIconsExtended = "1.7.8"
+navigationCompose = "2.9.7"
 room = "2.6.1"
 
 koin = "3.5.3"
@@ -17,10 +22,18 @@ retrofit = "2.9.0"
 okhttp = "4.12.0"
 gson = "2.10.1"
 coroutines = "1.7.3"
+coreKtxVersion = "1.18.0"
+material3 = "1.2.0"
+uiGraphics = "1.10.6"
 
 
 
 [libraries]
+accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanistSwiperefresh" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+androidx-material3-v140 = { module = "androidx.compose.material3:material3", version.ref = "material3Version" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+kotlinx-coroutines-android-v1102 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 
 converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
@@ -55,8 +68,13 @@ androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = 
 junit = { group = "junit", name = "junit", version = "4.13.2" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version = "1.1.5" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version = "3.5.1" }
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtxVersion" }
+material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version.ref = "uiGraphics" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 devtoolsKsp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+
